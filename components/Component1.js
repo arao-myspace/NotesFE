@@ -1,46 +1,51 @@
 import React, { useState, useEffect } from "react";
+import config from '../config/config';
 import {
     StyleSheet,
     SafeAreaView,
-    Button,
+    View,
     Alert,
     Icon,
     FlatList,
-    ActivityIndicator
+    ActivityIndicator,
+    Text
 } from "react-native";
 
+const Item = ({ title, body }) => (
+    <View style={styles.item}>
+      <Text style={styles.title}>{title} {body}</Text>
+    </View>
+  );
+
 const Component1 = () => {
-    const bckndUrl = 'https://reactnative.dev/movies.json'
+    const backendUrl = 'http://localhost:' + config.backendPort;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const endpoint = '/api/notes';
 
     useEffect(() => {
-        fetch(bckndUrl)
-            .then((response) => {
+        fetch(backendUrl + endpoint)
+            .then(response =>
                 response.json()
-            })
-            .then((json) => {
-                setData(json.movies);
-            })
+            )
+            .then(data => 
+                setData(data)
+            )
             .catch((err) => {
-                Alert.alert(err);
+                Alert.alert(err)
             })
             .finally(setLoading(false));
-    });
+    }, []);
+
+    const renderItem = ({ item }) => (
+        <Item title={item.title} body={item.body} />
+      );
 
     return (<SafeAreaView style={styles.viewStyle}>
-        <Button title="Hello World!"
-            onPress={() => Alert.alert("Simple action :)")} />
-        {isLoading ? (<ActivityIndicator />) : (
             <FlatList
                 data={data}
-                keyExtractor={({ id }, index) => id}
-                renderItem={
-                    ({ item }) => {
-                        return (<Text>{item.title}</Text>);
-                    }
-                }
-            />)}
+                keyExtractor={item => item._id}
+                renderItem={renderItem}/>
     </SafeAreaView>)
 }
 
@@ -53,7 +58,13 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         backgroundColor: "#eaeaea"
-    }
+    },
+    item: {
+        backgroundColor: '#f9c2ff',
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+      }
 });
 
 export default Component1;
