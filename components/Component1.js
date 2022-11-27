@@ -22,7 +22,7 @@ const Item = ({ title, body }) => (
   </TouchableWithoutFeedback>
 );
 
-const Component1 = () => {
+const Component1 = ({ navigation }) => {
   const backendUrl = "http://192.168.0.29:" + config.backendPort;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -33,12 +33,7 @@ const Component1 = () => {
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((err) => {
-        Alert.alert("Error", err.toString(), [
-          {
-            text: "OK",
-            onPress: () => console.log("OK Pressed"),
-          },
-        ]);
+        alert(err.toString());
       })
       .finally(setLoading(false));
   }, []);
@@ -58,6 +53,7 @@ const Component1 = () => {
         visible={visible}
         icon={(props) => <AntDesign name="plus" size={24} color="white" />}
         color="green"
+        onPress={() => navigation.navigate("Create", { name: "Jane" })}
       />
     </SafeAreaView>
   );
