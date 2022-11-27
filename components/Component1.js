@@ -7,16 +7,19 @@ import {
   Alert,
   FlatList,
   Text,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FAB } from "@rneui/themed";
 
 const Item = ({ title, body }) => (
-  <View style={styles.item}>
-    <Text style={styles.title}>
-      {title} {body}
-    </Text>
-  </View>
+  <TouchableWithoutFeedback onPress={() => alert("Pressed!")}>
+    <View style={styles.item}>
+      <Text style={styles.title}>
+        {title} {body}
+      </Text>
+    </View>
+  </TouchableWithoutFeedback>
 );
 
 const Component1 = () => {
@@ -72,7 +75,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#eaeaea",
   },
   item: {
-    backgroundColor: "#f9c2ff",
+    borderColor: "rgba(128, 128, 128, 0.4)",
+    borderWidth: 1,
+    borderRadius: 10,
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
