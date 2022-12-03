@@ -23,13 +23,13 @@ const Item = ({ title, body }) => (
 );
 
 const Component1 = ({ navigation }) => {
-  const backendUrl = "http://192.168.0.29:" + config.backendPort;
+  const backendPath = config.backendUrl + ":" + config.backendPort;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const endpoint = "/api/notes";
 
   useEffect(() => {
-    fetch(backendUrl + endpoint)
+    fetch(backendPath + endpoint)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((err) => {

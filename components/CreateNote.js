@@ -6,11 +6,83 @@ import {
   View,
   Text,
   TouchableWithoutFeedback,
+  TextInput,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const CreateScreen = ({ navigation, route }) => {
-  return <Text>This is {route.params.name}'s profile</Text>;
+  const backendPath = config.backendUrl + ":" + config.backendPort;
+  const [isLoading, setLoading] = useState(true);
+  //const [data, setData] = useState([]);
+  const endpoint = "/api/notes";
+  const [Title, setTitle] = useState("");
+  const [Content, setContent] = useState("");
+  const [Id, setId] = useState("");
+
+  const sendRequest = () => {
+    const payload = { _id: Id, title: Title, body: Content };
+    // useEffect(() => {
+    //   let myHeaders = new Headers();
+    //   myHeaders.append("Content-Type", "application/json");
+    //   fetch(backendPath + endpoint, {
+    //     method: "POST",
+    //     headers: myHeaders,
+    //     body:
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //  setId(data._id)
+    //  )
+    //     .catch((err) => {
+    //       alert(err.toString());
+    //     })
+    //     .finally(setLoading(false));
+    // }, []);
+  };
+  const inputTitle = (sText) => {
+    setTitle(sText);
+    sendRequest();
+  };
+  const inputContent = (sText) => {
+    setContent(sText);
+    sendRequest();
+  };
+  return (
+    <View style={styles.container}>
+      <TextInput
+        placeholder="Title..."
+        multiline={false}
+        style={styles.input}
+        onChangeText={inputTitle}
+      />
+      <TextInput
+        placeholder="Content..."
+        textAlignVertical="top"
+        multiline={true}
+        style={styles.inputMulti}
+        onChangeText={inputContent}
+      />
+    </View>
+  );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "stretch",
+  },
+  input: {
+    height: 40,
+    margin: 5,
+    padding: 10,
+    outlineStyle: "none",
+    fontSize: 20,
+  },
+  inputMulti: {
+    margin: 5,
+    padding: 10,
+    outlineStyle: "none",
+    flex: 1,
+  },
+});
 export default CreateScreen;
