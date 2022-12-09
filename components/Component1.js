@@ -22,7 +22,7 @@ const Item = ({ title, body }) => (
   </TouchableWithoutFeedback>
 );
 
-const Component1 = ({ navigation }) => {
+const Component1 = ({ route, navigation }) => {
   const backendPath = config.backendUrl + ":" + config.backendPort;
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -35,7 +35,7 @@ const Component1 = ({ navigation }) => {
       .catch((err) => {
         alert(err.toString());
       })
-      .finally(setLoading(false));
+      .finally(() => setLoading(false));
   }, []);
 
   const renderItem = ({ item }) => <Item title={item.title} body={item.body} />;

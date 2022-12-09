@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import config from "../config/config";
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  TextInput,
-} from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 const CreateScreen = ({ navigation, route }) => {
@@ -19,34 +12,53 @@ const CreateScreen = ({ navigation, route }) => {
   const [Content, setContent] = useState("");
   const [Id, setId] = useState("");
 
-  const sendRequest = () => {
+  useEffect(() => {
+    sendRequest("POST"); //set id of new note without any content
+  }, []);
+  useEffect(() => {
+    if (Title || Content) {
+      sendRequest("PUT");
+    }
+  }, [Title, Content]);
+  // useEffect(() => {
+  //   const exit = navigation.addListener(
+  //     "beforeRemove",
+  //     () => {
+  //       if (!Title && !Content) {
+  //         sendRequest("DELETE");
+  //       }
+  //       return exit;
+  //     },
+  //     Id
+  //   );
+  // }, [navigation]);
+
+  const sendRequest = (method) => {
     const payload = { _id: Id, title: Title, body: Content };
-    // useEffect(() => {
-    //   let myHeaders = new Headers();
-    //   myHeaders.append("Content-Type", "application/json");
-    //   fetch(backendPath + endpoint, {
-    //     method: "POST",
-    //     headers: myHeaders,
-    //     body:
-    //   })
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //  setId(data._id)
-    //  )
-    //     .catch((err) => {
-    //       alert(err.toString());
-    //     })
-    //     .finally(setLoading(false));
-    // }, []);
+    let myHeaders = new Headers();
+    const suffix = method === "POST" ? "" : "/" + Id;
+    myHeaders.append("Content-Type", "application/json");
+    fetch(backendPath + endpoint + suffix, {
+      method: method,
+      headers: myHeaders,
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setId(data._id);
+      })
+      .catch((err) => {
+        alert(err.toString());
+      })
+      .finally(() => setLoading(false));
   };
   const inputTitle = (sText) => {
     setTitle(sText);
-    sendRequest();
   };
   const inputContent = (sText) => {
     setContent(sText);
-    sendRequest();
   };
+
   return (
     <View style={styles.container}>
       <TextInput
