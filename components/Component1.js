@@ -4,22 +4,21 @@ import {
   StyleSheet,
   SafeAreaView,
   View,
-  Alert,
   FlatList,
   Text,
-  TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FAB } from "@rneui/themed";
 
 const Item = ({ title, body }) => (
-  <TouchableWithoutFeedback onPress={() => alert("Pressed!")}>
+  <Pressable onPress={() => alert("Pressed!")}>
     <View style={styles.item}>
       <Text style={styles.title}>
         {title} {body}
       </Text>
     </View>
-  </TouchableWithoutFeedback>
+  </Pressable>
 );
 
 const Component1 = ({ route, navigation }) => {
@@ -47,6 +46,7 @@ const Component1 = ({ route, navigation }) => {
         data={data}
         keyExtractor={(item) => item._id}
         renderItem={renderItem}
+        numColumns={2}
       />
       <FAB
         placement="right"
