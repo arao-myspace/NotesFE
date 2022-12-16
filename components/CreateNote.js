@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import config from "../config/config";
 import { StyleSheet, View, TextInput } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
 const CreateScreen = ({ navigation, route }) => {
   const backendPath = config.backendUrl + ":" + config.backendPort;
   const [isLoading, setLoading] = useState(true);
-  //const [data, setData] = useState([]);
   const endpoint = "/api/notes";
   const [Title, setTitle] = useState("");
   const [Content, setContent] = useState("");
@@ -20,18 +18,6 @@ const CreateScreen = ({ navigation, route }) => {
       sendRequest("PUT");
     }
   }, [Title, Content]);
-  // useEffect(() => {
-  //   const exit = navigation.addListener(
-  //     "beforeRemove",
-  //     () => {
-  //       if (!Title && !Content) {
-  //         sendRequest("DELETE");
-  //       }
-  //       return exit;
-  //     },
-  //     Id
-  //   );
-  // }, [navigation]);
 
   const sendRequest = (method) => {
     const payload = { _id: Id, title: Title, body: Content };

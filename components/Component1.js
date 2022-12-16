@@ -1,25 +1,10 @@
 import React, { useState, useEffect } from "react";
 import config from "../config/config";
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  FlatList,
-  Text,
-  Pressable,
-} from "react-native";
+import styles from "../styles/styles";
+import { SafeAreaView, View, FlatList, Text, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { FAB } from "@rneui/themed";
-
-const Item = ({ title, body }) => (
-  <Pressable onPress={() => alert("Pressed!")}>
-    <View style={styles.item}>
-      <Text style={styles.title}>
-        {title} {body}
-      </Text>
-    </View>
-  </Pressable>
-);
+import EditModal from "./EditNote";
 
 const Component1 = ({ route, navigation }) => {
   const backendPath = config.backendUrl + ":" + config.backendPort;
@@ -40,8 +25,32 @@ const Component1 = ({ route, navigation }) => {
   const renderItem = ({ item }) => <Item title={item.title} body={item.body} />;
 
   const [visible, setVisible] = React.useState(true);
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
+
+  const Item = ({ title, body }) => (
+    <Pressable
+      onPress={() => {
+        setModalIsVisible(true);
+        const selectedItem = { title: title, body: body };
+        setSelectedItem(selectedItem);
+      }}
+    >
+      <View style={styles.item}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.body}>{body}</Text>
+      </View>
+    </Pressable>
+  );
+
   return (
     <SafeAreaView style={styles.viewStyle}>
+      <EditModal
+        visible={modalIsVisible}
+        onClose={() => setModalIsVisible(false)}
+        title={selectedItem.title}
+        body={selectedItem.body}
+      />
       <FlatList
         data={data}
         keyExtractor={(item) => item._id}
@@ -58,26 +67,5 @@ const Component1 = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  viewStyle: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-    paddingTop: 25,
-    height: "100%",
-    width: "100%",
-    backgroundColor: "#eaeaea",
-  },
-  item: {
-    borderColor: "rgba(128, 128, 128, 0.4)",
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-});
 
 export default Component1;
