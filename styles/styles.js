@@ -28,6 +28,30 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 10,
   },
+  editContainer: {
+    flex: 1,
+    alignItems: "stretch",
+  },
+  input: {
+    height: 40,
+    margin: 5,
+    padding: 10,
+    outlineStyle: "none",
+    fontSize: 20,
+  },
+  inputMulti: {
+    margin: 5,
+    padding: 10,
+    outlineStyle: "none",
+    flex: 1,
+  },
+  topToolbar: {
+    marginTop: 16,
+    height: 20,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    flexDirection: "row",
+  },
 });
 
 export default styles;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Modal, Text, Button } from "react-native";
+import { View, Modal, Text, Button, TextInput } from "react-native";
 import styles from "../styles/styles";
 
 const EditModal = (props) => {
@@ -9,11 +9,29 @@ const EditModal = (props) => {
 
   return (
     <Modal animationType="slide" visible={props.visible}>
-      <View style={styles.item}>
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.body}>{props.body}</Text>
+      <View>
+        <View accessibilityRole="toolbar" style={styles.topToolbar}>
+          <Button onPress={closeEditHandler} title="Cancel" color="#ff7d7d" />
+          <Button onPress={closeEditHandler} title="Save" color="#2a54fa" />
+        </View>
+        <View style={styles.editContainer}>
+          <TextInput
+            placeholder="Title..."
+            multiline={false}
+            style={styles.input}
+            // onChangeText={inputTitle}
+            value={props.title}
+          />
+          <TextInput
+            placeholder="Content..."
+            textAlignVertical="top"
+            multiline={true}
+            style={styles.inputMulti}
+            // onChangeText={inputContent}
+            value={props.body}
+          />
+        </View>
       </View>
-      <Button onPress={closeEditHandler} title="Back to main" />
     </Modal>
   );
 };

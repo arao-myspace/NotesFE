@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import config from "../config/config";
 import { StyleSheet, View, TextInput } from "react-native";
+import styles from "../styles/styles";
 
 const CreateScreen = ({ navigation, route }) => {
   const backendPath = config.backendUrl + ":" + config.backendPort;
@@ -46,7 +47,7 @@ const CreateScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.editContainer}>
       <TextInput
         placeholder="Title..."
         multiline={false}
@@ -64,23 +65,4 @@ const CreateScreen = ({ navigation, route }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "stretch",
-  },
-  input: {
-    height: 40,
-    margin: 5,
-    padding: 10,
-    outlineStyle: "none",
-    fontSize: 20,
-  },
-  inputMulti: {
-    margin: 5,
-    padding: 10,
-    outlineStyle: "none",
-    flex: 1,
-  },
-});
 export default CreateScreen;
